@@ -38,11 +38,27 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+
+      - name: get space size
+        run: df -h
+
+      - name: get docker size
+        run: docker images
+
       - name: Build with Maven
         run: mvn -B clean install -Dstream -Pdocker -DskipTests -Dorg.slf4j.simpleLogger.defaultLogLevel=ERROR
 
+      - name: get space size
+        run: df -h
+
+      - name: get docker size
+        run: docker images
+
       - name: Run metadata driver tests
         run: mvn -B -f metadata-drivers/pom.xml test -DintegrationTests -Dorg.slf4j.simpleLogger.defaultLogLevel=ERROR
+
+      - name: get space size
+        run: df -h
 
       - name: Run all integration tests
         run: mvn -B -f tests/pom.xml test -Dstream -DintegrationTests -Dorg.slf4j.simpleLogger.defaultLogLevel=ERROR
